@@ -1,0 +1,45 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "調査年": "2022",
+        "調査対象": "地すべり",
+        "調査機器": "ドローン",
+        "調査地": "長野県"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [138.18, 36.65]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "調査年": "2023",
+        "調査対象": "地震断層",
+        "調査機器": "ドローン",
+        "調査地": "静岡県"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [138.38, 34.95]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "調査年": "2023",
+        "調査対象": "地すべり",
+        "調査機器": "LiDAR",
+        "調査地": "岐阜県"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [137.00, 35.90]
+      }
+    }
+  ]
+}
+

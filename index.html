@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>調査ポイントマップ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://unpkg.com/maplibre-gl@3.6.1/dist/maplibre-gl.css" rel="stylesheet" />
+  <link rel="stylesheet" href="style/map.css">
+  <style>
+    body, html { margin: 0; padding: 0; height: 100%; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+    #filter-panel {
+      position: absolute; top: 10px; left: 10px; background: white;
+      padding: 10px; z-index: 1; border-radius: 6px; box-shadow: 0 0 5px #999;
+    }
+    select { margin: 5px 0; width: 100%; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div id="filter-panel">
+    <label>調査年:
+      <select id="year-select">
+        <option value="">すべて</option>
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+      </select>
+    </label>
+    <label>調査対象:
+      <select id="target-select">
+        <option value="">すべて</option>
+        <option value="地すべり">地すべり</option>
+        <option value="地震断層">地震断層</option>
+      </select>
+    </label>
+  </div>
+
+  <script src="https://unpkg.com/maplibre-gl@3.6.1/dist/maplibre-gl.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
+
