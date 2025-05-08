@@ -1,4 +1,4 @@
-// main.js（ラスタタイル対応版）
+// main.js（ラスタタイル対応＋setStyle方式）
 
 const basemapSources = {
   pale: {
@@ -24,29 +24,33 @@ function createMap(sourceKey = 'pale') {
     container: 'map',
     center: [138.0, 36.5],
     zoom: 6,
-    style: {
-      version: 8,
-      sources: {
-        [source.id]: {
-          type: 'raster',
-          tiles: source.tiles,
-          tileSize: 256,
-          attribution: '地理院タイル 他'
-        }
-      },
-      layers: [
-        {
-          id: source.id + '_layer',
-          type: 'raster',
-          source: source.id
-        }
-      ]
-    }
+    style: getStyleFromSource(source)
   });
 
   map.on('load', () => {
     loadGeoJSON();
   });
+}
+
+function getStyleFromSource(source) {
+  return {
+    version: 8,
+    sources: {
+      [source.id]: {
+        type: 'raster',
+        tiles: source.tiles,
+        tileSize: 256,
+        attribution: '地理院タイル 他'
+      }
+    },
+    layers: [
+      {
+        id: source.id + '_layer',
+        type: 'raster',
+        source: source.id
+      }
+    ]
+  };
 }
 
 let geojsonData;
@@ -106,8 +110,28 @@ function setupBasemapSwitcher() {
 
   basemapSelect.addEventListener('change', () => {
     const selected = basemapSelect.value;
-    map.remove();
-    createMap(selected);
+    const source = basemapSources[selected];
+
+    map.setStyle(getStyleFromSource(source));
+
+    map.once('styledata', () => {
+      map.addSource(mapSourceId, {
+        type: 'geojson',
+        data: geojsonData
+      });
+
+      map.addLayer({
+        id: 'points-layer',
+        type: 'circle',
+        source: mapSourceId,
+        paint: {
+          'circle-radius': 6,
+          'circle-color': '#007cbf',
+          'circle-stroke-width': 1,
+          'circle-stroke-color': '#fff'
+        }
+      });
+    });
   });
 }
 
