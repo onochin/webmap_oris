@@ -1,4 +1,4 @@
-// main.js（ラスタタイル対応＋setStyle方式）
+// main.js（ラスタタイル対応＋setStyle方式＋従属フィルター）
 
 const basemapSources = {
   pale: {
@@ -82,26 +82,44 @@ async function loadGeoJSON() {
 }
 
 function setupFilter() {
-  const targetSelect = document.getElementById('target-select');
   const deviceSelect = document.getElementById('device-select');
+  const targetSelect = document.getElementById('target-select');
+
+  function updateTargetOptions(deviceValue) {
+    const targets = new Set();
+    geojsonData.features.forEach(f => {
+      if (!deviceValue || f.properties['探査機器'] === deviceValue) {
+        targets.add(f.properties['調査対象']);
+      }
+    });
+    targetSelect.innerHTML = '<option value="">すべて</option>' +
+      Array.from(targets).map(t => `<option value="${t}">${t}</option>`).join('');
+  }
 
   function applyFilter() {
-    const target = targetSelect.value;
     const device = deviceSelect.value;
+    const target = targetSelect.value;
 
     const filtered = {
       type: 'FeatureCollection',
       features: geojsonData.features.filter(f => {
-        return (!target || f.properties['調査対象'] === target) &&
-               (!device || f.properties['探査機器'] === device);
+        return (!device || f.properties['探査機器'] === device) &&
+               (!target || f.properties['調査対象'] === target);
       })
     };
 
     map.getSource(mapSourceId).setData(filtered);
   }
 
+  deviceSelect.addEventListener('change', () => {
+    updateTargetOptions(deviceSelect.value);
+    applyFilter();
+  });
+
   targetSelect.addEventListener('change', applyFilter);
-  deviceSelect.addEventListener('change', applyFilter);
+
+  // 初期化
+  updateTargetOptions(deviceSelect.value);
 }
 
 function setupBasemapSwitcher() {
