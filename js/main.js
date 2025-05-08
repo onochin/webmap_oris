@@ -58,4 +58,3 @@ function setupFilter() {
   yearSelect.addEventListener('change', applyFilter);
   targetSelect.addEventListener('change', applyFilter);
 }
-
