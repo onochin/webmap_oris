@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>調査ポイントマップ</title>
+  <title>非破壊探査実績マップ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://unpkg.com/maplibre-gl@3.6.1/dist/maplibre-gl.css" rel="stylesheet" />
   <link rel="stylesheet" href="style/map.css">
@@ -13,24 +13,16 @@
       position: absolute; top: 10px; left: 10px; background: white;
       padding: 10px; z-index: 1; border-radius: 6px; box-shadow: 0 0 5px #999;
     }
+    #layer-switcher {
+      position: absolute; top: 10px; right: 10px; background: white;
+      padding: 10px; z-index: 1; border-radius: 6px; box-shadow: 0 0 5px #999;
+    }
     select { margin: 5px 0; width: 100%; }
   </style>
 </head>
 <body>
   <div id="map"></div>
   <div id="filter-panel">
-    <label>調査年:
-      <select id="year-select">
-        <option value="">すべて</option>
-        <option value="令和元年">令和元年</option>
-        <option value="令和２年">令和２年</option>
-        <option value="令和３年">令和３年</option>
-        <option value="令和４年">令和４年</option>
-        <option value="令和５年">令和５年</option>
-        <option value="令和６年">令和６年</option>
-        <option value="令和７年">令和７年</option>
-      </select>
-    </label>
     <label>調査対象:
       <select id="target-select">
         <option value="">すべて</option>
@@ -42,9 +34,19 @@
     <label>探査機器:
       <select id="device-select">
         <option value="">すべて</option>
-        <option value="オーリス">Oris（オーリス）</option>
+        <option value="オーリス">オーリス</option>
         <option value="MIRA（ミラ）">MIRA（ミラ）</option>
         <option value="Pulsar（パルサー）">Pulsar（パルサー）</option>
+      </select>
+    </label>
+  </div>
+
+  <div id="layer-switcher">
+    <label>背景地図:
+      <select id="basemap-select">
+        <option value="pale">淡色地図</option>
+        <option value="photo">空中写真</option>
+        <option value="osm">OSM風</option>
       </select>
     </label>
   </div>
