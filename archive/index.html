@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>非破壊探査実績マップ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://unpkg.com/maplibre-gl@3.6.1/dist/maplibre-gl.css" rel="stylesheet" />
+  <link rel="stylesheet" href="style/map.css">
+  <style>
+    body, html { margin: 0; padding: 0; height: 100%; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+    #filter-panel {
+      position: absolute; top: 10px; left: 10px; background: white;
+      padding: 10px; z-index: 1; border-radius: 6px; box-shadow: 0 0 5px #999;
+    }
+    #layer-switcher {
+      position: absolute; top: 10px; right: 10px; background: white;
+      padding: 10px; z-index: 1; border-radius: 6px; box-shadow: 0 0 5px #999;
+    }
+    select { margin: 5px 0; width: 100%; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div id="filter-panel">
+    <label>探査機器:
+      <select id="device-select">
+        <option value="">すべて</option>
+        <option value="オーリス">オーリス</option>
+        <option value="ミラ">ミラ</option>
+        <option value="オーリス、ミラ">オーリス、ミラ</option>
+        <option value="パルサー">パルサー</option>
+      </select>
+    </label>
+    <label>調査区分:
+      <select id="category-select">
+        <option value="">すべて</option>
+        <option value="形状調査">形状調査</option>
+        <option value="状態調査">状態調査</option>
+      </select>
+    </label>
+    <label>調査対象:
+      <select id="target-select">
+        <option value="">すべて</option>
+        <option value="コンクリート">コンクリート構造物</option>
+        <option value="鋼">鋼構造物</option>
+        <option value="岩石">自然物（岩石等）</option>
+      </select>
+    </label>
+  </div>
+
+  <div id="layer-switcher">
+    <label>背景地図:
+      <select id="basemap-select">
+        <option value="pale">淡色地図</option>
+        <option value="photo">空中写真</option>
+        <option value="osm">OSM風</option>
+      </select>
+    </label>
+  </div>
+
+  <script src="https://unpkg.com/maplibre-gl@3.6.1/dist/maplibre-gl.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
