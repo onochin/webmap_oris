@@ -1,4 +1,4 @@
-// main.js（ラスタタイル対応＋setStyle方式＋従属フィルター）
+// main.js（調査区分を追加した3条件フィルター）
 
 const basemapSources = {
   pale: {
@@ -83,6 +83,7 @@ async function loadGeoJSON() {
 
 function setupFilter() {
   const deviceSelect = document.getElementById('device-select');
+  const categorySelect = document.getElementById('category-select');
   const targetSelect = document.getElementById('target-select');
 
   function updateTargetOptions(deviceValue) {
@@ -98,12 +99,14 @@ function setupFilter() {
 
   function applyFilter() {
     const device = deviceSelect.value;
+    const category = categorySelect.value;
     const target = targetSelect.value;
 
     const filtered = {
       type: 'FeatureCollection',
       features: geojsonData.features.filter(f => {
         return (!device || f.properties['探査機器'] === device) &&
+               (!category || f.properties['調査区分'] === category) &&
                (!target || f.properties['調査対象'] === target);
       })
     };
@@ -116,9 +119,9 @@ function setupFilter() {
     applyFilter();
   });
 
+  categorySelect.addEventListener('change', applyFilter);
   targetSelect.addEventListener('change', applyFilter);
 
-  // 初期化
   updateTargetOptions(deviceSelect.value);
 }
 
