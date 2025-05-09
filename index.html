@@ -12,41 +12,33 @@
     #filter-panel {
       position: absolute; top: 10px; left: 10px; background: white;
       padding: 10px; z-index: 1; border-radius: 6px; box-shadow: 0 0 5px #999;
+      max-width: 200px;
     }
     #layer-switcher {
       position: absolute; top: 10px; right: 10px; background: white;
       padding: 10px; z-index: 1; border-radius: 6px; box-shadow: 0 0 5px #999;
     }
-    select { margin: 5px 0; width: 100%; }
+    .filter-group { margin-bottom: 10px; }
+    .filter-group strong { display: block; margin-bottom: 4px; }
+    .filter-group label { display: block; margin-bottom: 2px; }
   </style>
 </head>
 <body>
   <div id="map"></div>
+
   <div id="filter-panel">
-    <label>探査機器:
-      <select id="device-select">
-        <option value="">すべて</option>
-        <option value="オーリス">オーリス</option>
-        <option value="ミラ">ミラ</option>
-        <option value="オーリス、ミラ">オーリス、ミラ</option>
-        <option value="パルサー">パルサー</option>
-      </select>
-    </label>
-    <label>調査区分:
-      <select id="category-select">
-        <option value="">すべて</option>
-        <option value="形状調査">形状調査</option>
-        <option value="状態調査">状態調査</option>
-      </select>
-    </label>
-    <label>調査対象:
-      <select id="target-select">
-        <option value="">すべて</option>
-        <option value="コンクリート">コンクリート構造物</option>
-        <option value="鋼">鋼構造物</option>
-        <option value="岩石">自然物（岩石等）</option>
-      </select>
-    </label>
+    <div class="filter-group">
+      <strong>探査機器：</strong>
+      <div id="filter-device"></div>
+    </div>
+    <div class="filter-group">
+      <strong>調査区分：</strong>
+      <div id="filter-category"></div>
+    </div>
+    <div class="filter-group">
+      <strong>調査対象：</strong>
+      <div id="filter-target"></div>
+    </div>
   </div>
 
   <div id="layer-switcher">
