@@ -1,4 +1,4 @@
-// main.js（チェックボックスフィルター対応、探査機器色分け、ポップアップ：写真→Title→項目順）
+// main.js（チェックボックスフィルター対応、探査機器色分け、ポップアップ：写真→Title→項目順、相対パス修正）
 
 const basemapSources = {
   pale: { id: 'gsi_pale', tiles: ['https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png'] },
@@ -71,9 +71,9 @@ async function loadGeoJSON() {
 // ポップアップ表示処理
 function showPopup(feature) {
   const props = feature.properties;
-  // 写真
+  // 写真（相対パスに修正）
   const imgHtml = props.photo
-    ? `<img src="/photo/${props.photo}" style="max-width:200px; display:block; margin-bottom:8px; cursor: zoom-in; transition: max-width 0.2s;" onclick="this.style.maxWidth = this.style.maxWidth === '200px' ? '400px' : '200px';">`
+    ? `<img src="photo/${props.photo}" style="max-width:200px; display:block; margin-bottom:8px; cursor: zoom-in; transition: max-width 0.2s;" onclick="this.style.maxWidth = this.style.maxWidth === '200px' ? '400px' : '200px';">`
     : '';
   // タイトル
   const title = props.Title || 'No title';
@@ -82,9 +82,9 @@ function showPopup(feature) {
   const fields = ['調査年度', '探査機器', '調査区分', '調査対象', '調査場所'];
   const rows = fields.map(key => {
     const val = props[key] || '';
-    return `<tr><th style="text-align:right; padding:4px 8px; white-space:nowrap;">${key}：</th><td style="padding:4px 8px; word-break:break-word;">${val}</td></tr>`;
+    return `<tr><th style=\"text-align:right; padding:4px 8px; white-space:nowrap;\">${key}：</th><td style=\"padding:4px 8px; word-break:break-word;\">${val}</td></tr>`;
   }).join('');
-  const tableHtml = `<table style="border-collapse:collapse; width:auto;">${rows}</table>`;
+  const tableHtml = `<table style=\"border-collapse:collapse; width:auto;\">${rows}</table>`;
 
   const html = `
     <div>
@@ -116,7 +116,7 @@ function buildCheckboxFilter(containerId, items, onChange) {
   const container = document.getElementById(containerId);
   if (!container) return;
   container.innerHTML = items.map(v =>
-    `<label style="display:block; margin:2px 0;"><input type=\"checkbox\" value=\"${v}\"> ${v}</label>`
+    `<label style=\"display:block; margin:2px 0;\"><input type=\"checkbox\" value=\"${v}\"> ${v}</label>`
   ).join('');
   container.querySelectorAll('input[type=checkbox]').forEach(cb => cb.addEventListener('change', onChange));
 }
