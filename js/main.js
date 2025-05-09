@@ -1,4 +1,4 @@
-// main.js（調査区分を追加した3条件フィルター）
+// main.js（調査区分を追加した3条件フィルター、探査機器ごとに色分け：濃いピンクに調整）
 
 const basemapSources = {
   pale: {
@@ -71,10 +71,36 @@ async function loadGeoJSON() {
     source: mapSourceId,
     paint: {
       'circle-radius': 6,
-      'circle-color': '#007cbf',
+      'circle-color': [
+        'match',
+        ['get', '探査機器'],
+        'オーリス',      'blue',      // オーリス：青
+        'ミラ',        '#FF1493',   // ミラ：濃いピンクに変更
+        'パルサー',    'orange',    // パルサー：オレンジ
+        'オーリス、ミラ','green',   // オーリス、ミラ：緑
+        '#007cbf'                     // デフォルト色
+      ],
       'circle-stroke-width': 1,
       'circle-stroke-color': '#fff'
     }
+  });
+
+  // ポップアップ設定
+  map.on('mouseenter', 'points-layer', () => {
+    map.getCanvas().style.cursor = 'pointer';
+  });
+  map.on('mouseleave', 'points-layer', () => {
+    map.getCanvas().style.cursor = '';
+  });
+  map.on('click', 'points-layer', (e) => {
+    const props = e.features[0].properties;
+    const info = Object.keys(props)
+      .map(key => `<strong>${key}:</strong> ${props[key]}`)
+      .join('<br>');
+    new maplibregl.Popup({ offset: 10 })
+      .setLngLat(e.lngLat)
+      .setHTML(`<div>${info}</div>`)
+      .addTo(map);
   });
 
   setupFilter();
@@ -147,10 +173,36 @@ function setupBasemapSwitcher() {
         source: mapSourceId,
         paint: {
           'circle-radius': 6,
-          'circle-color': '#007cbf',
+          'circle-color': [
+            'match',
+            ['get', '探査機器'],
+            'オーリス',      'blue',
+            'ミラ',        '#FF1493',
+            'パルサー',    'orange',
+            'オーリス、ミラ','green',
+            '#007cbf'
+          ],
           'circle-stroke-width': 1,
           'circle-stroke-color': '#fff'
         }
+      });
+
+      // ポップアップ設定（スタイル切り替え後も有効に）
+      map.on('mouseenter', 'points-layer', () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+      map.on('mouseleave', 'points-layer', () => {
+        map.getCanvas().style.cursor = '';
+      });
+      map.on('click', 'points-layer', (e) => {
+        const props = e.features[0].properties;
+        const info = Object.keys(props)
+          .map(key => `<strong>${key}:</strong> ${props[key]}`)
+          .join('<br>');
+        new maplibregl.Popup({ offset: 10 })
+          .setLngLat(e.lngLat)
+          .setHTML(`<div>${info}</div>`)
+          .addTo(map);
       });
     });
   });
